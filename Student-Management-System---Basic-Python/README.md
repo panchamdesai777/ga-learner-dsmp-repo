@@ -7,9 +7,9 @@
 
  In this project i have applied the following concepts:
 
-Mathematical operations
-List operations
-Dictionary operations
+Mathematical operations,
+List operations,
+Dictionary operations,
 String indexing and formatting
 
 
