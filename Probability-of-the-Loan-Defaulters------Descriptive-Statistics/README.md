@@ -10,10 +10,15 @@ Problem Statement:- What is the probability that the borrower paid back their lo
  After completing this project, I now have a better grip on the applications of descriptive statistics. In this project, I have applied the following concepts:
 
 Bar plotting
+
 Boxplot plotting
+
 Pie-chart plotting
+
 Subplot operations
+
 Feature Correlation
+
 IQR operations
 
 
