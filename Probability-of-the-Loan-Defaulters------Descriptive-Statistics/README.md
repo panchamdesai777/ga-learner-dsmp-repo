@@ -7,18 +7,13 @@ Problem Statement:- What is the probability that the borrower paid back their lo
 
 ### Learnings from the project
 
- After completing this project, I now have a better grip on the applications of descriptive statistics. In this project, I have applied the following concepts:
+After completing this project, I now have a better understanding of probability. In this project, I have applied the following concepts.
 
-Bar plotting
+Independency check
 
-Boxplot plotting
+Bayes theorem
 
-Pie-chart plotting
+Visualizing discrete variable
 
-Subplot operations
-
-Feature Correlation
-
-IQR operations
-
+Visualizing continuous variable
 
