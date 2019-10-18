@@ -14,8 +14,13 @@ The dataset has details of 614 customers with the following 13 features.
  After completing this project, I have build better grip on working with basic and advanced operations of pandas. In this project we have applied following concepts.
 
 Dataframe slicing,
+
 Dataframe aggregation,
+
 Pivot table operations,
+
 Dataframe Grouping,
+
 Merging
+
 and other operations.
