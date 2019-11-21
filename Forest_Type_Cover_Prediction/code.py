@@ -20,7 +20,7 @@ dataset = dataset.drop('Id',axis=1)
 dataset.describe()
 
 
-# --------------
+# Exploratory Data Analysis
 # We will visualize all the attributes using Violin Plot - a combination of box and density plots
 import seaborn as sns
 from matplotlib import pyplot as plt
@@ -45,48 +45,26 @@ y = cols[0:size]
 
 for i in range(0,size):
     sns.violinplot(x=x,y=y[i],data=dataset)
-    
+   
 
-
-
-# --------------
+# Closer look towards relationship between different variables
 import numpy as np
 upper_threshold = 0.5
 lower_threshold = -0.5
 
-
 # Code Starts Here
-
 subset_train = dataset.iloc[:,0:10]
 
 data_corr = subset_train.corr()
 
-# sns.heatmap(data_corr,annot=True)
+sns.heatmap(data_corr,annot=True)
 
 correlation = data_corr.unstack().sort_values(kind='quicksort')
 
-# print(upper)
-
 corr_var_list= correlation[((correlation > upper_threshold) | (correlation < lower_threshold )) & (correlation !=1)]
-
-# corr_var_list = correlation > upper_threshold & correlation < lower_threshold & correlation != 1
-
-
-print(corr_var_list)
-
-# mask = correlation > upper_threshold and correlation < lower_threshold and correlation !=1
-# corr_var_list = correlation[mask]
-
-# print(corr_var_list)
-
-# print(corr_var_list)
-
 # Code ends here
 
-
-
-
-# --------------
+# Data Cleaning , Data preparation ...getting towards feature selection
 #Import libraries 
 from sklearn import cross_validation
 from sklearn.preprocessing import StandardScaler
@@ -94,7 +72,7 @@ from sklearn.model_selection import train_test_split
 
 # Identify the unnecessary columns and remove it 
 dataset.drop(columns=['Soil_Type7', 'Soil_Type15'], inplace=True)
-
+r,c =dataset.shape
 X = dataset.drop('Cover_Type',axis=1)
 y = dataset.Cover_Type
 
@@ -103,25 +81,18 @@ X_train,X_test,y_train,y_test = cross_validation.train_test_split(X,y,test_size=
 
 scaler = StandardScaler()
 
-X_train_temp = scaler.fit_transform(X_train.iloc[:,0:size])
+X_train_temp = scaler.fit_transform(X_train.iloc[:,:10])
 
 #Standardized
 #Apply transform only for continuous data
 
-X_test_temp = scaler.fit_transform(X_test.iloc[:,0:size])
+X_test_temp = scaler.transform(X_test.iloc[:,:10])
 
 # #Concatenate scaled continuous data and categorical
-# X_train_temp = pd.DataFrame(X_train_temp)
 
-# X_test_temp = pd.DataFrame(X_test_temp)
+X_train1 = np.concatenate((X_train_temp,X_train.iloc[:,10:c-1]),axis=1)
 
-# X_train1 = pd.concat([X_train_temp,X_train],axis=1)
-
-# X_test1 = pd.concat([X_test_temp,X_test],axis=1)
-
-X_train1 = np.concatenate((X_train_temp,X_train.iloc[:,size:]),axis=1)
-
-X_test1 = np.concatenate((X_test_temp,X_test.iloc[:,size:]),axis=1)
+X_test1 = np.concatenate((X_test_temp,X_test.iloc[:,10:c-1]),axis=1)
 
 # creating a dataframe with columns and indexes as while scaling we lost the column names
 
@@ -129,16 +100,10 @@ scaled_features_train_df = pd.DataFrame(data = X_train1 ,index = X_train.index, 
 
 scaled_features_test_df = pd.DataFrame(data = X_test1 , index = X_test.index , columns = X_test.columns)
 
+# Feature Selection using Select percentile
 
-
-
-
-
-# --------------
 from sklearn.feature_selection import SelectPercentile
 from sklearn.feature_selection import f_classif
-
-# Write your solution here:
 
 skb = SelectPercentile(score_func=f_classif , percentile = 90)
 
@@ -157,7 +122,8 @@ top_k_predictors = list(dataframe['Features'][:predictors.shape[1]])
 print(top_k_predictors)
 
 
-# --------------
+# Effect of feature selection on model prediction
+
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, precision_score
